@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title></title>
+        <style>
+            #header, #content, #footer {
+                overflow: hidden;
+            }
+
+            div.left_space, div.center_space, div.right_space {
+                border: 1px solid rgb(128, 128, 128);
+                background-color: rgb(228, 228, 228);
+            }
+            div.center_space {
+                width: 1075px;
+                padding: 100px;
+            }
+            #header div.center_space {
+                border-radius: 0 0 30px 30px;
+                height: 80px;
+                float: left;
+            }
+            #header div.left_space {
+                width: 100px;
+                height: 80px;
+                padding: 100px;
+                border-radius: 30px 0;
+                float: left;
+            }
+            #header div.right_space {
+                width: 100px;
+                height: 80px;
+                padding: 100px;
+                border-radius: 0 30px;
+                float: left;
+            }
+
+            #content div.left_space{
+                border-radius: 0 30px 30px 0;
+                width: 100px;
+                height: 300px;
+                padding: 100px;
+                float:left;
+                
+            }
+            #content div.center_space{
+                border-radius: 30px;
+                height: 300px;
+                float: left;
+            }
+            #content div.right_space{
+                border-radius: 30px 0 0 30px;
+                width: 100px;
+                height: 300px;
+                padding: 100px;
+                float: left;
+            }
+
+            #footer div.center_space {
+                border-radius: 30px 30px 0 0;
+                height: 80px;
+                float: left;
+            }
+            #footer div.left_space {
+                width: 100px;
+                height: 80px;
+                padding: 100px;
+                border-radius: 0 30px;
+                float: left;
+            }
+            #footer div.right_space {
+                width: 100px;
+                height: 80px;
+                padding: 100px;
+                border-radius: 30px 0;
+                float: left;
+            }
+            #content div.center_space ul li {
+                list-style: none;
+                font-weight: bold;
+                font-size: 20px;
+                width: 258px;
+
+                float: left;
+            }
+            #content div.hiseoul {
+                clear:both; 
+                padding: 10px;
+            }
+
+        </style>
+    </head>
+    <body>
+    
+    <div id="header">
+        <div class="left_space"></div>
+        <div class="center_space"></div>
+        <div class="right_space"></div>
+    </div>
+
+    <div id="content">
+        <div class="left_space"></div>
+        <div class="center_space">
+            <div>
+                <ul>
+                    <li>menu1</li>
+                    <li>menu2</li>
+                    <li>menu3</li>
+                    <li>menu4</li>
+                </ul>
+            </div>
+            <div class="hiseoul">
+                <h1>고색고등학교</h1>
+                <p>고색고등학교는 ‘고색 Dynamic 인재 육성 프로그램’을 바탕으로 학생 한 사람 한 사람의 가능성을 존중하며,
+자율과 책임 속에서 역량을 기를 수 있는 교육을 실천하고 있습니다. 학생이 자기 주도적으로 탐구하고 삶과 연결된 배움을 통해 성숙한 품성을 키울 수 있도록 돕는 것이 고색의 교육 목표입니다.</p>
+            </div>
+        </div>
+        
+        <div class="right_space"></div>
+    </div>
+
+    <div id="footer">
+        <div class="left_space"></div>
+        <div class="center_space"></div>
+        <div class="right_space"></div>
+    </div>
+    </body>
+</html>

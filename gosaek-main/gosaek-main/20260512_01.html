@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>수행 연습</title>
+    <style>
+        header {
+            display: flex;
+            justify-content:space-between;
+        }
+        #logo {
+            align-items: center;
+            margin: 40px;
+        }
+        #menu {
+            font-size: 28px;
+            display: flex;
+        }
+        #menu ul{
+            padding: 20px;
+        }
+        #name {
+            display: flex;
+        }
+        #slogan {
+            font-size: 16px;
+        }
+
+
+
+        #hero {
+            display: flex;
+            justify-content:space-between;
+        }
+        #profile {
+            border-radius: 8px;
+            border: 1px solid black;
+            width: 400px;
+            margin: 100px;
+        }
+        #hero div{
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+        }
+        #hero div h1 {
+            margin: 100px;
+            width: 1000px;
+        }
+        #hero div p {
+            margin: 100px;
+            width: 1000px;
+        }
+        #hero div div {
+            display: flex;
+            flex-direction: row;
+        }
+        .details {
+            background-color: #4f46e5;
+            color: white;
+            font-size: 20px;
+            width: 200px;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px;
+        }
+
+
+
+        #explane {
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+        }
+        #explane div {
+            display: flex;
+            flex-direction: row;
+            justify-content:space-between;
+        }
+        #explane div div {
+            display: flex;
+            flex-direction: column;
+            padding: 100px;
+        }
+        .text {
+            text-align: center;
+            margin: 50px;
+            width: 1000px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+        }
+        .text p {
+            padding: 80px;
+        }
+
+
+        #send {
+            display: flex;
+            flex-direction: column;
+        }
+        #send div{
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        #send div h2 {
+            margin: 100px;
+        }
+        #send div input {
+            width: 200px;
+            padding: 30px;
+        }
+        #send div a {
+            margin: 50px;
+            border: 2px solid black;
+            border-radius: 5px;
+            color: white;
+            background-color: #4f46e5;
+        }
+        #email {
+            margin-top: 100px;
+        }
+    </style>
+    <script>
+        
+    </script>
+</head>
+<body>
+    <header>
+        <h1 id = 'logo'>로고 (MY PROFILE)</h1>
+        <nav id = 'menu'>
+            <ul><a href = '#hero'>소개</a></ul>
+            <ul><a href = '#explane'>관심 분야</a></ul>
+            <ul><a href = '#send'>연락처</a></ul>
+        </nav>
+    </header>
+    <hr>
+    <section id = 'hero'>
+        <img id = 'profile' src = 'img/banana.png'>
+        <div>
+            <h1>안녕하세요, [이름]입니다.</h1>
+            <p>여기에 본인의 꿈이나 소개글을 입력합니다.</p>
+            <div>
+                <button class = 'details'>소개</button>
+                <button class = 'details'>관심 분야</button>
+                <button class = 'details'>연락처</button>
+            </div>
+        </div>
+    </section>
+    <hr>
+    <section id = 'explane'>
+            <h2>관심 분야</h2>
+            <div>
+                <div class = 'text'>
+                    <h3>항목 1</h3>
+                    <p>설명 텍스트...</p>
+                </div>
+                <div class = 'text'>
+                    <h3>항목 2</h3>
+                    <p>설명 텍스트...</p>
+                </div>
+                <div class = 'text'>
+                    <h3>항목 3</h3>
+                    <p>설명 텍스트...</p>
+                </div>
+            </div>
+    </section>
+    <hr>
+    <form id = 'send'>
+            <div>
+                <h2>연락처</h2>
+                <p>이름 입력</p>
+                <input type = 'text' id = 'name'></input>
+                <p>메시지 입력</p>
+                <input type = 'text' id = 'message'></input>
+                <a href = "javascript:confirm('다시 입력하세요.')">보내기</a>
+                <p id = 'email'>##################</p>
+            </div>
+    </form>
+</body>
+</html>

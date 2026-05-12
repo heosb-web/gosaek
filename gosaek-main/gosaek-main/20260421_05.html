@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+<meta charset="UTF-8">
+<title>0421 과제</title>
+</head>
+<body>
+<script>
+
+	// 이곳에 자바스크립트 코드를 작성하라.
+    let star = prompt("정수를 입력하세요");
+    star = parseInt(star);
+    if (star <= 0) document.write("입력을 잘못 하셨습니다.<br>");
+    else{
+        for(let cnt = 1; cnt <= star; cnt+=1) {
+            for(let cnt2 = 1; cnt2 <= cnt; cnt2+=1){
+                document.write("*");
+            }
+                document.write("<br>");
+        }
+    }
+</script>
+<!-- <span style = 'font-size: 5px;'>abc</span> -->
+</body>
+</html>
