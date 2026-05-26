@@ -1,0 +1,614 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WEB-PORTFOLIO</title>
+    <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.css" />
+    <style>
+        /* 기본 스타일 초기화 */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, system-ui, Roboto, sans-serif;
+        }
+
+        body {
+            background-color: #f8faff;
+            color: #4a5568;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        /* 중앙 정렬 컨테이너 */
+        .center-container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 30px;
+        }
+
+        /* --- 상단 고정 헤더 (서브 화면 진입 시 무조건 상단 고정) --- */
+        .fixed-header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 70px;
+            background-color: rgba(255, 255, 255, 0.98);
+            border-bottom: 1px solid #e2e8f0;
+            display: none; /* 서브 화면으로 전환될 때 js로 flex 전환 */
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 30px;
+            z-index: 9999;
+            box-shadow: 0 2px 10px rgba(226, 232, 240, 0.4);
+        }
+
+        .back-btn {
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+            color: #3182ce;
+            font-size: 15px;
+            font-weight: 700;
+            user-select: none;
+        }
+
+        .back-btn:hover {
+            color: #2b6cb0;
+        }
+
+        .header-title {
+            font-size: 18px;
+            font-weight: 700;
+            color: #2d3748;
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        /* --- 일반 메인 헤더 영역 --- */
+        .main-header {
+            width: 100%;
+            background-color: #ffffff;
+            border-bottom: 1px solid #e2e8f0;
+            text-align: center;
+            padding: 35px 0;
+            box-shadow: 0 2px 10px rgba(226, 232, 240, 0.3);
+        }
+
+        .main-header h1 {
+            font-size: 26px;
+            font-weight: 700;
+            color: #2d3748;
+            letter-spacing: -0.5px;
+        }
+
+        /* --- 메인 콘텐츠 영역 --- */
+        main {
+            flex: 1;
+            width: 100%;
+            padding: 50px 0;
+        }
+
+        /* ================= [1] 메인 목록 화면 스타일 ================= */
+        #main-view {
+            display: block;
+        }
+
+        .month-group {
+            margin-bottom: 15px;
+        }
+
+        .month-title-wrapper {
+            display: inline-block;
+            margin-bottom: 30px;
+            position: relative;
+        }
+
+        .month-title {
+            font-size: 22px;
+            font-weight: 700;
+            color: #3182ce;
+            padding-bottom: 8px;
+            position: relative;
+        }
+
+        .month-title::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 60%;
+            height: 3px;
+            background-color: #90cdf4;
+            border-radius: 2px;
+        }
+
+        .card-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 30px;
+        }
+
+        .card-click-wrap {
+            cursor: pointer;
+            width: 100%;
+            max-width: 250px;
+            display: block;
+        }
+
+        .card {
+            background-color: #ffffff;
+            border: 1px solid #e2e8f0;
+            border-radius: 16px;
+            width: 100%;
+            padding: 12px;
+            display: flex;
+            flex-direction: column;
+            box-shadow: 0 4px 12px rgba(144, 205, 244, 0.04);
+            transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+        }
+
+        .card-click-wrap:hover .card {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 22px rgba(144, 205, 244, 0.12);
+            border-color: #bee3f8;
+        }
+
+        .card-image-box {
+            width: 100%;
+            background: transparent;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 12px;
+            overflow: hidden;
+        }
+
+        .card-image-box img {
+            width: 100%;
+            height: auto;
+            max-height: 100%;
+            object-fit: contain; 
+            border-radius: 12px;
+        }
+
+        .card-info {
+            margin-top: 10px;
+            padding: 0 2px;
+            display: flex;
+            justify-content: flex-start;
+        }
+
+        .card-date {
+            display: inline-block;
+            font-size: 15px;
+            color: #2b6cb0;
+            font-weight: 700;
+            background-color: #ebf8ff; 
+            padding: 5px 12px;
+            border-radius: 6px;
+            letter-spacing: -0.3px;
+        }
+
+        .section-divider {
+            border: none;
+            border-top: 1px solid #e2e8f0;
+            width: 100%;
+            margin: 45px 0;
+        }
+
+        /* ================= [2] 서브 상세 화면 스타일 ================= */
+        #detail-view {
+            display: none;
+            margin-top: 40px; /* 상단 고정바 자리 확보 */
+        }
+
+        .page-title-wrapper {
+            margin-bottom: 40px;
+            border-left: 5px solid #3182ce;
+            padding-left: 15px;
+        }
+
+        .page-title {
+            font-size: 28px;
+            font-weight: 800;
+            color: #2d3748;
+            margin-bottom: 6px;
+        }
+
+        .page-subtitle {
+            font-size: 16px;
+            color: #718096;
+        }
+
+        .sub-card-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr); 
+            gap: 40px; 
+            width: 100%;
+        }
+
+        .sub-card-link {
+            text-decoration: none;
+            color: inherit;
+            display: block;
+            width: 100%;
+        }
+
+        .sub-card {
+            background-color: #ffffff;
+            border: 1px solid #e2e8f0;
+            border-radius: 20px;
+            width: 100%;
+            padding: 24px;
+            display: flex;
+            flex-direction: column;
+            box-shadow: 0 6px 18px rgba(144, 205, 244, 0.05);
+            transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+        }
+
+        .sub-card-link:hover .sub-card {
+            transform: translateY(-6px);
+            box-shadow: 0 15px 30px rgba(49, 130, 206, 0.1);
+            border-color: #90cdf4;
+        }
+
+        .sub-card-image-box {
+            width: 100%;
+            background: transparent;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 14px;
+            overflow: hidden;
+        }
+
+        .sub-card-image-box img {
+            width: 100%;
+            height: auto;
+            max-height: 450px;
+            object-fit: contain;
+            border-radius: 14px;
+        }
+
+        .sub-card-info {
+            margin-top: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .sub-activity-number {
+            display: inline-block;
+            align-self: flex-start;
+            font-size: 16px;
+            color: #2b6cb0;
+            font-weight: 800;
+            background-color: #ebf8ff; 
+            padding: 6px 14px;
+            border-radius: 6px;
+        }
+
+        .sub-desc-title {
+            font-size: 15px;
+            font-weight: 700;
+            color: #4a5568;
+            margin-bottom: -4px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .sub-desc-title::after {
+            content: '이동하기 ↗';
+            font-size: 13px;
+            color: #3182ce;
+            font-weight: 600;
+        }
+
+        .sub-activity-desc {
+            font-size: 15px;
+            color: #4a5568;
+            line-height: 1.6;
+            background-color: #f8faff;
+            padding: 15px;
+            border-radius: 10px;
+            border-left: 3px solid #cbd5e0;
+            min-height: 80px;
+        }
+
+        footer {
+            width: 100%;
+            background-color: #ffffff;
+            border-top: 1px solid #e2e8f0;
+            padding: 35px 0;
+        }
+
+        @media (max-width: 900px) {
+            .card-grid, .sub-card-grid {
+                grid-template-columns: 1fr;
+                gap: 25px;
+            }
+            .card-click-wrap {
+                max-width: 100%;
+            }
+            .center-container {
+                padding: 0 20px;
+            }
+            .header-title {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="fixed-header" id="fixedHeader">
+        <div class="back-btn" onclick="showMainView()">← 메인화면으로 돌아가기</div>
+        <div class="header-title" id="fixedHeaderTitle">활동 기록</div>
+        <div style="width:150px;"></div>
+    </div>
+
+    <header class="main-header" id="mainHeader">
+        <h1>허승범's WEB-PORTFOLIO</h1>
+    </header>
+
+    <main>
+        
+        <div id="main-view">
+            <div class="center-container">
+                
+                <article class="month-group">
+                    <div class="month-title-wrapper"><h2 class="month-title">3월</h2></div>
+                    <div class="card-grid">
+                        <div class="card-click-wrap" onclick="showDetailView('20260310_01')"><div class="card"><div class="card-image-box"><img src="imgs/3월.png"></div><div class="card-info"><span class="card-date">3월 10일</span></div></div></div>
+                        <div class="card-click-wrap" onclick="showDetailView('20260317_01')"><div class="card"><div class="card-image-box"><img src="imgs/3월.png"></div><div class="card-info"><span class="card-date">3월 17일</span></div></div></div>
+                        <div class="card-click-wrap" onclick="showDetailView('20260324_01')"><div class="card"><div class="card-image-box"><img src="imgs/3월.png"></div><div class="card-info"><span class="card-date">3월 24일</span></div></div></div>
+                        <div class="card-click-wrap" onclick="showDetailView('20260331_01')"><div class="card"><div class="card-image-box"><img src="imgs/3월.png"></div><div class="card-info"><span class="card-date">3월 31일</span></div></div></div>
+                    </div>
+                </article>
+
+                <hr class="section-divider">
+
+                <article class="month-group">
+                    <div class="month-title-wrapper"><h2 class="month-title">4월</h2></div>
+                    <div class="card-grid">
+                        <div class="card-click-wrap" onclick="showDetailView('20260407_01')"><div class="card"><div class="card-image-box"><img src="imgs/4월.png"></div><div class="card-info"><span class="card-date">4월 7일</span></div></div></div>
+                        <div class="card-click-wrap" onclick="showDetailView('20260421_01')"><div class="card"><div class="card-image-box"><img src="imgs/4월.png"></div><div class="card-info"><span class="card-date">4월 21일</span></div></div></div>
+                    </div>
+                </article>
+
+                <hr class="section-divider">
+
+                <article class="month-group">
+                    <div class="month-title-wrapper"><h2 class="month-title">5월</h2></div>
+                    <div class="card-grid">
+                        <div class="card-click-wrap" onclick="showDetailView('20260512_01')"><div class="card"><div class="card-image-box"><img src="imgs/5월.png"></div><div class="card-info"><span class="card-date">5월 12일</span></div></div></div>
+                    </div>
+                </article>
+
+            </div>
+        </div>
+
+
+        <div id="detail-view">
+            <div class="center-container">
+                
+                <div class="page-title-wrapper">
+                    <h2 class="page-title" id="detailTitle">프로젝트 상세</h2>
+                    <p class="page-subtitle" id="detailSubtitle">활동 내역 일지</p>
+                </div>
+
+                <div class="sub-card-grid" id="detailGrid"></div>
+
+            </div>
+        </div>
+
+    </main>
+
+    <footer style="width: 100%; background-color: #ffffff; border-top: 1px solid #e2e8f0; padding: 40px 0; text-align: center;">
+        <div class="center-container" style="display: flex; flex-direction: column; gap: 8px; align-items: center; justify-content: center;">
+            <p style="font-size: 14px; color: #4a5568; font-weight: 600; letter-spacing: -0.3px;">
+                Copyright 2026. WEB-PORTFOLIO. All rights reserved.
+            </p>
+            <p style="font-size: 13px; color: #718096; letter-spacing: 0.2px;">
+                Contact: <a href="tel:010-5401-4688" style="color: #3182ce; text-decoration: none; font-weight: 600;">010-5401-4688</a>
+            </p>
+        </div>
+    </footer>
+
+
+    <script>
+        /* [전체 실습 파일 교차 검증 및 정밀 고도화 데이터 센터]
+           - 메인페이지 날짜 밑 서브 타이틀은 직관적으로 변경하고, 개별 서브 카드의 상세 내용을 완벽히 매핑했습니다.
+        */
+        const projectData = {
+            "20260310_01": {
+                date: "3월 10일", img: "3월", sub: "3월 10일 프로젝트 활동",
+                activities: [
+                    { label: "1번 활동", url: "projects/20260310_01.html", desc: "HTML 문서의 기본 선언 구조를 이해하고, 웹 페이지의 뼈대를 형성하는 텍스트 표현 태그의 기초 렌더링을 실습했습니다." }
+                ]
+            },
+            "20260317_01": {
+                date: "3월 17일", img: "3월", sub: "3월 17일 프로젝트 활동",
+                activities: [
+                    { label: "1번 활동", url: "projects/20260317_00.html", desc: "웹 표준 태그 구조를 기반으로 블록 요소와 인라인 요소의 배치적 차이 및 하이퍼링크(a 태그) 연동 메커니즘을 구성했습니다." },
+                    { label: "2번 활동", url: "projects/20260317_01.html", desc: "웹 문서 내에 멀티미디어 자원(이미지)을 배치하고 절대경로와 상대경로를 활용한 자원 매핑 구조를 학습했습니다." },
+                    { label: "3번 활동", url: "projects/20260317_02.html", desc: "표(Table) 생성 태그를 활용하여 행과 열을 병합하고, 정형화된 데이터의 레이아웃 격자를 체계적으로 설계했습니다." },
+                    { label: "4번 활동", url: "projects/20260317_03.html", desc: "사용자 입력을 받기 위한 Form 양식과 다양한 Input 데이터 타입을 배치하여 클라이언트-서버 간의 기초 인터페이스를 실습했습니다." }
+                ]
+            },
+            "20260324_01": {
+                date: "3월 24일", img: "3월", sub: "3월 24일 프로젝트 활동",
+                activities: [
+                    { label: "1번 활동", url: "projects/20260324_01.html", desc: "HTML 태그 선택자와 ID 선택자(#h1)의 스타일 적용 우선순위를 비교 분석하고, 특정 블록(div) 내에서의 전용 배경색 스타일 매핑을 실습했습니다." },
+                    { label: "2번 활동", url: "projects/20260324_02.html", desc: "고색고등학교 소개 문화를 예제로 활용하여 복수의 태그 그룹화 스타일링, 전체 선택자(*)를 활용한 전역 폰트 컬러 매핑을 구현했습니다." },
+                    { label: "3번 활동", url: "projects/20260324_03.html", desc: "float: left 정렬 속성과 부모 박스의 overflow: hidden 프로퍼티를 연계하여, 배너 카드와 메인 콘텐츠 박스가 결합된 고전적 2단 레이아웃을 생성했습니다." },
+                    { label: "4번 활동", url: "projects/20260324_04.html", desc: "자식 선택자(div > p)와 후손 선택자(#wrap ul)의 문서 트리 탐색 차이를 이해하고, 다중 중첩 리스트 구조 안에서 계층적으로 스타일을 제어했습니다." }
+                ]
+            },
+            "20260331_01": {
+                date: "3월 31일", img: "3월", sub: "3월 31일 프로젝트 활동",
+                activities: [
+                    { label: "1번 활동", url: "projects/20260331_01.html", desc: "동적 가상 클래스인 :hover와 :focus 인터랙션을 바인딩하여 마우스 오버 및 폼 입력 상태의 UI 변화를 구현하고, disabled 상태별 스타일 편차를 적용했습니다." },
+                    { label: "2번 활동", url: "projects/20260331_02.html", desc: "수식형 구조 가상 클래스 :nth-child(2n+1)를 사용하여 홀수 번째 배경색을 다르게 제어하고, :first-child와 :last-child 조합에 border-radius를 적용해 세련된 둥근 메뉴 탭을 구축했습니다." },
+                    { label: "3번 활동", url: "projects/20260331_03.html", desc: "고색고등학교의 그리드 구조를 바탕으로 좌·중·우 여백 분할 박스를 레이아웃하고, float 정렬 및 이를 상쇄하는 clear: both 속성을 복합 연동해 균형 잡힌 웹 그리드를 구현했습니다." }
+                ]
+            },
+            "20260407_01": {
+                date: "4월 7일", img: "4월", sub: "4월 7일 프로젝트 활동",
+                activities: [
+                    { label: "1번 활동", url: "projects/20260407_01.html", desc: "display 프로퍼티의 핵심 속성인 none, inline, inline-block, block의 공간 차지 렌더링 차이를 분석하고, 성질을 강제 전환하여 박스 레이아웃을 구성했습니다." },
+                    { label: "2번 활동", url: "projects/20260407_02.html", desc: "마우스 호버(:hover) 시 원래 자리를 보존하며 움직이는 relative 좌표계와 공간 레이아웃을 임의 점유하여 절댓값으로 배치되는 absolute 구조를 결합해 움직이는 카드 인터랙션을 구현했습니다." },
+                    { label: "3번 활동", url: "projects/20260407_03.html", desc: "크리스마스 트리 배경 레이어 위로 상위 div 노드를 absolute 좌표계로 격리한 뒤, 자식 p 태그들의 top, left 값을 정밀하게 지정하여 텍스트를 오버레이하는 타이포그래피 레이아웃을 빌드했습니다." },
+                    { label: "4번 활동", url: "projects/20260407_04.html", desc: "position: absolute 좌표 오버랩 환경에서 z-index 프로퍼티의 정수 가중치를 제어하여, 여러 장의 트럼프 카드 이미지들(스페이드 A, 2, 3, 7)의 상하 적층 가시성 순서를 완벽히 컨트롤했습니다." },
+                    { label: "5번 활동", url: "projects/20260407_05.html", desc: "스크롤의 흐름과 무관하게 브라우저 뷰포트 내 특정 위치를 사수하는 position: fixed 속성을 실습하고, 상호 다른 크기를 가진 사각형 노드들의 z-index 오버레이 계층을 조율했습니다." },
+                    { label: "6번 활동", url: "projects/20260407_06.html", desc: "CSS3 핵심 그래픽 기술인 @keyframes 프레임을 선언하여, '꽝!' 타이틀의 폰트 크기를 0%에서 100% 분기점별로 500px과 1px 사이로 급격하게 교차 증감시키는 무한 반복 애니메이션을 구현했습니다." },
+                    { label: "7번 활동", url: "projects/20260407_07.html", desc: "애니메이션 응용 단계로서 @keyframes move 내부에 좌우 마진 공간 프로퍼티(margin-left) 스케일을 제어하여, 질문하기 이미지 노드가 화면 전체를 무한 동적으로 횡단 주행하는 가속도 레이아웃을 생성했습니다." }
+                ]
+            },
+            "20260421_01": {
+                date: "4월 21일", img: "4월", sub: "4월 21일 프로젝트 활동",
+                activities: [
+                    { label: "1번 활동", url: "projects/20260421_01.html", desc: "onmouseover, onmouseout 속성에 외부 자바스크립트 파일(20260421.js)의 커스텀 함수를 바인딩하여 마우스 상태에 따라 과일 이미지를 동적으로 변경하고, 문자열 연산 및 삼항 조건 연산자의 처리 결과를 화면에 직접 렌더링했습니다." },
+                    { label: "2번 활동", url: "projects/20260421_02.html", desc: "HTML 하이퍼링크 태그 내부의 href 속성에 'javascript:' 의사 프로토콜을 사용하여 인라인 스크립트를 직접 작성하고, 클릭 시 confirm 대화상자를 트리거하는 이벤트 연동 방식을 학습했습니다." },
+                    { label: "3번 활동", url: "projects/20260421_03.html", desc: "prompt() 함수를 통해 클라이언트로부터 사용자 점수 데이터를 직접 입력받고, parseInt()를 통한 데이터 타입 변환 및 다중 if-else 조건문 분기 처리를 통해 조건별 학점을 동적으로 판정하는 프로그램을 구현했습니다." },
+                    { label: "4번 활동", url: "projects/20260421_04.html", desc: "자바스크립트의 대표적 루프 제어문인 for 문을 활용하여 반복 변수의 크기를 5px 단위로 증감시키고, 이를 동적 CSS 인라인 스타일 속성(font-size)과 결합하여 화면에 계층적 크기의 텍스트 출력을 순차 제어했습니다." },
+                    { label: "5번 활동", url: "projects/20260421_05.html", desc: "사용자에게 prompt 창으로 양의 정수를 입력받은 후 자바스크립트 중첩 반복문(다중 for 문) 알고리즘을 설계하여, 행마다 숫자가 점진적으로 증가하는 역동적인 '줄바꿈 별(*) 찍기' 스크립트를 구현했습니다." }
+                ]
+            },
+            "20260512_01": {
+                date: "5월 12일", img: "5월", sub: "5월 12일 프로젝트 활동",
+                activities: [
+                    { label: "1번 활동", url: "projects/20260512_01.html", desc: "현대적인 반응형 레이아웃 배치 기술인 CSS Flexbox(display: flex, justify-content: space-between) 구조를 활용하여 세련된 상단 헤더 내비게이션, 프로필 카드 공간 분할, 그리고 입력 폼 구조화가 포함된 개인 소개 포트폴리오 랜딩 페이지를 빌드했습니다." }
+                ]
+            }
+        };
+
+        const mainGrid = document.getElementById('mainGrid');
+        const detailView = document.getElementById('detailView');
+        const detailGrid = document.getElementById('detailGrid');
+        const selectedDateText = document.getElementById('selectedDate');
+        const selectedSubText = document.getElementById('selectedSub');
+        const backBtn = document.getElementById('backBtn');
+
+        // 메인 화면 포트폴리오 리스트 자동 초기화 렌더링
+        function initMainGrid() {
+            mainGrid.innerHTML = '';
+            for (const key in projectData) {
+                const data = projectData[key];
+                mainGrid.innerHTML += `
+                    <div class="card" onclick="showDetailView('${key}')">
+                        <div class="card-image-box">
+                            <img src="imgs/${data.img}.png" alt="${data.date}">
+                        </div>
+                        <div class="card-info">
+                            <span class="activity-date">${data.date}</span>
+                            <h3 class="activity-sub">${data.sub}</h3>
+                        </div>
+                    </div>
+                `;
+            }
+        }
+
+        // 날짜 선택 시 서브 페이지 컴포넌트 렌더링 및 desc 출력 기능 핵심 보완
+        function showDetail(dateKey) {
+            const data = projectData[dateKey];
+            if (!data) return;
+
+            // 1. 화면 전환 (메인 숨기고 상세 보여줌)
+            document.getElementById('mainHeader').style.display = 'none';
+            document.getElementById('main-view').style.display = 'none';
+            document.getElementById('fixedHeader').style.display = 'block';
+            document.getElementById('detail-view').style.display = 'block';
+            
+            const detailGrid = document.getElementById('detailGrid');
+            detailGrid.innerHTML = ''; 
+            
+            // 2. 상세 데이터 바인딩
+            data.activities.forEach((item) => {
+                detailGrid.innerHTML += `
+                    <a href="${item.url}" class="sub-card-link">
+                        <div class="sub-card">
+                            <div class="sub-card-image-box">
+                                <img src="imgs/${data.img}.png">
+                            </div>
+                            <div class="sub-card-info">
+                                <span class="sub-activity-number">${item.label}</span>
+                                <div class="sub-desc-title">상세내용</div>
+                                <p class="sub-activity-desc">${item.desc}</p>
+                            </div>
+                        </div>
+                    </a>
+                `;
+            });
+            
+            window.scrollTo({top: 0});
+        }
+
+        // 메인 화면으로 되돌아가기 이벤트 핸들러
+        backBtn.addEventListener('click', () => {
+            detailView.style.display = 'none';
+            mainGrid.style.display = 'grid';
+        });
+
+        // 웹 어플리케이션 구동 시 실행
+        initMainGrid();
+
+        // 서브 목록 화면 열기 함수 (고정바 출력 연동)
+        function showDetailView(projectCode) {
+            const data = projectData[projectCode];
+            if(!data) return;
+
+            document.getElementById('mainHeader').style.display = 'none';
+            document.getElementById('main-view').style.display = 'none';
+            
+            document.getElementById('fixedHeader').style.display = 'flex';
+            document.getElementById('detail-view').style.display = 'block';
+            
+            document.getElementById('fixedHeaderTitle').innerText = data.date + " 활동 기록";
+            document.getElementById('detailTitle').innerText = data.date + " 프로젝트";
+            document.getElementById('detailSubtitle').innerText = data.sub;
+            
+            const detailGrid = document.getElementById('detailGrid');
+            detailGrid.innerHTML = ''; 
+            
+            data.activities.forEach((item) => {
+                /* target 속성이 없으므로 새 창을 띄우지 않고 현재 창에서 정직하게 열립니다 */
+                detailGrid.innerHTML += `
+                    <a href="${item.url}" class="sub-card-link">
+                        <div class="sub-card">
+                            <div class="sub-card-image-box">
+                                <img src="imgs/${data.img}.png">
+                            </div>
+                            <div class="sub-card-info">
+                                <span class="sub-activity-number">${item.label}</span>
+                                <div class="sub-desc-title">상세내용</div>
+                                <p class="sub-activity-desc">${item.desc}</p>
+                            </div>
+                        </div>
+                    </a>
+                `;
+            });
+            
+            window.scrollTo({top: 0});
+        }
+
+        // 고정바의 '메인화면으로 돌아가기' 클릭 시 원복 함수
+        function showMainView() {
+            document.getElementById('fixedHeader').style.display = 'none';
+            document.getElementById('detail-view').style.display = 'none';
+            
+            document.getElementById('mainHeader').style.display = 'block';
+            document.getElementById('main-view').style.display = 'block';
+            
+            window.scrollTo({top: 0});
+        }
+    </script>
+</body>
+</html>
