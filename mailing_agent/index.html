@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>메일링 에이전트 AI</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="main-container">
+        <!-- 채팅 컨테이너 -->
+        <div class="chat-container">
+            <!-- 헤더 -->
+            <div class="chat-header">
+                <div class="header-avatar">🤖</div>
+                <div class="header-info">
+                    <h2>메일링 에이전트 AI</h2>
+                    <span class="status online">● 온라인 &nbsp;|&nbsp; <span class="header-sub">메일 작성 도우미</span></span>
+                </div>
+                <div class="header-actions">
+                    <button class="header-btn" id="taoToggle" title="TAO 로그 패널">🧠</button>
+                    <button class="header-btn stop-btn" id="stopButton" title="작업 중지">🛑</button>
+                    <button class="header-btn" id="themeToggle" title="다크모드 전환">🌙</button>
+                </div>
+            </div>
+
+            <!-- 메시지 영역 -->
+            <div class="chat-messages" id="chatMessages">
+                <div class="message bot">
+                    <div class="message-avatar">🤖</div>
+                    <div class="message-content">
+                        <p>📬 안녕하세요! <strong>메일링 에이전트 AI</strong>입니다.</p>
+                        <p>메일 작성이 필요하시면 말씀만 해주세요.</p>
+                        <p style="margin-top:4px;font-size:0.8rem;color:#888;">예시: "sunny.icmhs@gamil.com에게 회의록 보내줘"</p>
+                        <span class="message-time">방금 전</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 타이핑 인디케이터 -->
+            <div class="typing-indicator" id="typingIndicator">
+                <div class="typing-dot"></div>
+                <div class="typing-dot"></div>
+                <div class="typing-dot"></div>
+                <span>AI가 작업을 수행하고 있습니다...</span>
+            </div>
+
+            <!-- 입력 -->
+            <div class="chat-input">
+                <input type="text" id="userInput" placeholder="메일 요청을 입력하세요..." autofocus>
+                <button id="sendButton">➤</button>
+            </div>
+        </div>
+
+        <!-- TAO 패널 -->
+        <div class="tao-panel" id="taoPanel">
+            <div class="tao-panel-header">
+                <h3>🧠 TAO 로그</h3>
+                <button class="tao-close" onclick="toggleTaoPanel()">✕</button>
+            </div>
+            <div class="tao-panel-body" id="taoPanelBody">
+                <div style="text-align:center;color:#999;font-size:0.78rem;padding:20px 0;">
+                    아직 기록이 없습니다.<br>
+                    메일 요청을 입력하면 TAO 로그가 표시됩니다.
+                </div>
+            </div>
+            <div class="tao-panel-footer">
+                <button class="tao-export-btn" onclick="exportTaoLog()">📥 로그 내보내기</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts: guardrails.js(무의존) → tools.js(guardrails 의존) → app.js(둘 다 의존) -->
+    <script src="guardrails.js"></script>
+    <script src="tools.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>

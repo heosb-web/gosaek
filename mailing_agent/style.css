@@ -1,0 +1,764 @@
+/* ===== 기본 리셋 & 레이아웃 ===== */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    overflow: hidden;
+}
+
+/* ===== 메인 컨테이너 ===== */
+.main-container {
+    display: flex;
+    gap: 12px;
+    width: 100%;
+    max-width: 900px;
+    height: 700px;
+}
+
+.chat-container {
+    flex: 1;
+    min-width: 0;
+    background: white;
+    border-radius: 20px;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    transition: background 0.3s;
+}
+
+/* ===== TAO 패널 ===== */
+.tao-panel {
+    width: 0;
+    overflow: hidden;
+    background: white;
+    border-radius: 20px;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+    transition: width 0.3s ease, padding 0.3s ease;
+    display: flex;
+    flex-direction: column;
+}
+
+.tao-panel.open {
+    width: 320px;
+    min-width: 320px;
+    padding: 0;
+}
+
+.tao-panel-header {
+    padding: 14px 16px;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-shrink: 0;
+}
+
+.tao-panel-header h3 {
+    font-size: 0.95rem;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.tao-panel-header .tao-close {
+    background: rgba(255,255,255,0.2);
+    border: none;
+    color: white;
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 0.9rem;
+    transition: background 0.2s;
+}
+
+.tao-panel-header .tao-close:hover {
+    background: rgba(255,255,255,0.35);
+}
+
+.tao-panel-body {
+    flex: 1;
+    overflow-y: auto;
+    padding: 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.tao-panel-body::-webkit-scrollbar {
+    width: 4px;
+}
+
+.tao-panel-body::-webkit-scrollbar-thumb {
+    background: #ccc;
+    border-radius: 2px;
+}
+
+.tao-entry {
+    background: #f8f9fa;
+    border-left: 3px solid #667eea;
+    border-radius: 8px;
+    padding: 10px 12px;
+    font-size: 0.78rem;
+    line-height: 1.5;
+    animation: taoFadeIn 0.3s ease;
+}
+
+@keyframes taoFadeIn {
+    from { opacity: 0; transform: translateX(-10px); }
+    to { opacity: 1; transform: translateX(0); }
+}
+
+.tao-entry.rejected {
+    border-left-color: #e53935;
+    background: #fff5f5;
+}
+
+.tao-entry .tao-turn {
+    font-size: 0.7rem;
+    color: #999;
+    margin-bottom: 4px;
+}
+
+.tao-entry .tao-label {
+    font-weight: 600;
+    display: inline;
+}
+
+.tao-entry .tao-thought {
+    color: #1565c0;
+}
+
+.tao-entry .tao-action {
+    color: #2e7d32;
+}
+
+.tao-entry .tao-observation {
+    color: #e65100;
+}
+
+.tao-entry.rejected .tao-observation {
+    color: #c62828;
+}
+
+.tao-entry .tao-line {
+    margin-bottom: 3px;
+}
+
+.tao-entry .tao-line:last-child {
+    margin-bottom: 0;
+}
+
+.tao-panel-footer {
+    padding: 10px 12px;
+    border-top: 1px solid #eee;
+    flex-shrink: 0;
+}
+
+.tao-export-btn {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    background: #f5f5f5;
+    color: #555;
+    font-size: 0.78rem;
+    cursor: pointer;
+    transition: background 0.2s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+}
+
+.tao-export-btn:hover {
+    background: #eee;
+}
+
+/* ===== 다크모드 ===== */
+body.dark .chat-container {
+    background: #1a1a2e;
+    color: #e0e0e0;
+}
+
+body.dark .tao-panel {
+    background: #1a1a2e;
+    color: #e0e0e0;
+}
+
+body.dark .tao-panel-header {
+    background: linear-gradient(135deg, #16213e 0%, #0f3460 100%);
+}
+
+body.dark .tao-entry {
+    background: #16213e;
+    color: #e0e0e0;
+}
+
+body.dark .tao-entry.rejected {
+    background: #2a1a1a;
+}
+
+body.dark .tao-panel-footer {
+    border-top-color: #0f3460;
+}
+
+body.dark .tao-export-btn {
+    background: #16213e;
+    border-color: #0f3460;
+    color: #aaa;
+}
+
+body.dark .chat-header {
+    background: linear-gradient(135deg, #16213e 0%, #0f3460 100%);
+}
+
+body.dark .chat-messages {
+    background: #16213e;
+}
+
+body.dark .message.bot .message-content {
+    background: #0f3460;
+    color: #e0e0e0;
+}
+
+body.dark .message.user .message-content {
+    background: #e94560;
+    color: white;
+}
+
+body.dark .chat-input {
+    background: #1a1a2e;
+    border-top: 1px solid #0f3460;
+}
+
+body.dark .chat-input input {
+    background: #16213e;
+    color: #e0e0e0;
+    border-color: #0f3460;
+}
+
+body.dark .typing-indicator {
+    background: #16213e;
+    color: #888;
+}
+
+body.dark .typing-dot {
+    background: #e94560;
+}
+
+body.dark .tao-record {
+    background: #0a0a1a;
+    border-left: 3px solid #4fc3f7;
+}
+
+body.dark .tao-thought { color: #81d4fa; }
+body.dark .tao-action { color: #a5d6a7; }
+body.dark .tao-observation { color: #fff59d; }
+
+body.dark .tool-badge { background: #333; color: #ccc; }
+body.dark .tool-badge.askuser { background: #f9a825; color: #1a1a2e; }
+body.dark .tool-badge.composeemail { background: #42a5f5; color: white; }
+body.dark .tool-badge.showpreview { background: #ab47bc; color: white; }
+body.dark .tool-badge.sendemail { background: #ef5350; color: white; }
+
+body.dark .draft-preview {
+    background: #0a0a1a;
+    border: 1px solid #333;
+}
+
+body.dark .draft-preview .draft-label {
+    color: #888;
+}
+
+body.dark .draft-preview .draft-content {
+    color: #e0e0e0;
+}
+
+body.dark .btn-confirm {
+    background: linear-gradient(135deg, #43a047, #66bb6a);
+}
+
+body.dark .btn-cancel {
+    background: #555;
+}
+
+body.dark .send-result {
+    background: #0a3314;
+    border: 1px solid #2e7d32;
+}
+
+body.dark .safety-warning {
+    background: #2a1a1a;
+    border-color: #c62828;
+    color: #ef9a9a;
+}
+
+body.dark .retry-buttons {
+    border-top-color: #0f3460;
+}
+
+body.dark .btn-retry {
+    background: #0f3460;
+    color: white;
+}
+
+body.dark .btn-exit {
+    background: #333;
+    color: #ccc;
+}
+
+body.dark .tao-entry .tao-thought {
+    color: #81d4fa;
+}
+
+body.dark .tao-entry .tao-action {
+    color: #a5d6a7;
+}
+
+body.dark .tao-entry .tao-observation {
+    color: #fff59d;
+}
+
+body.dark .tao-entry.rejected .tao-observation {
+    color: #ef9a9a;
+}
+
+/* ===== 헤더 ===== */
+.chat-header {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    padding: 14px 20px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-shrink: 0;
+}
+
+.header-avatar {
+    font-size: 1.8rem;
+    width: 46px;
+    height: 46px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 50%;
+    flex-shrink: 0;
+}
+
+.header-info { flex: 1; min-width: 0; }
+.header-info h2 { color: white; font-size: 1rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.header-sub {
+    font-size: 0.75rem;
+    color: rgba(255, 255, 255, 0.75);
+}
+.status.online { color: #69f0ae; font-size: 0.75rem; }
+
+.header-actions {
+    display: flex;
+    gap: 6px;
+    flex-shrink: 0;
+}
+
+.header-btn {
+    background: rgba(255, 255, 255, 0.2);
+    border: none;
+    color: white;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    font-size: 1.05rem;
+    cursor: pointer;
+    transition: background 0.3s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.header-btn:hover { background: rgba(255, 255, 255, 0.35); }
+
+.header-btn.stop-btn {
+    background: rgba(255, 80, 80, 0.35);
+    font-size: 1.1rem;
+}
+
+.header-btn.stop-btn:hover {
+    background: rgba(255, 50, 50, 0.55);
+}
+
+.header-btn.tao-toggle.active {
+    background: rgba(255, 255, 255, 0.35);
+}
+
+/* ===== 메시지 영역 ===== */
+.chat-messages {
+    flex: 1;
+    overflow-y: auto;
+    padding: 16px 20px;
+    background: #f5f5f5;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.chat-messages::-webkit-scrollbar { width: 5px; }
+.chat-messages::-webkit-scrollbar-thumb { background: #ccc; border-radius: 3px; }
+
+.message {
+    display: flex;
+    gap: 8px;
+    max-width: 95%;
+    animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.message.bot { align-self: flex-start; }
+.message.user { align-self: flex-end; flex-direction: row-reverse; }
+
+.message-avatar {
+    font-size: 1.3rem;
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #e0e0e0;
+    border-radius: 50%;
+    flex-shrink: 0;
+}
+
+.message.user .message-avatar { background: #764ba2; }
+
+.message-content {
+    padding: 10px 14px;
+    border-radius: 14px;
+    font-size: 0.88rem;
+    line-height: 1.5;
+}
+
+.message.bot .message-content {
+    background: white;
+    color: #333;
+    border-top-left-radius: 3px;
+    box-shadow: 0 1px 6px rgba(0,0,0,0.07);
+}
+
+.message.user .message-content {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    border-top-right-radius: 3px;
+}
+
+.message-time {
+    font-size: 0.65rem;
+    color: #999;
+    display: block;
+    margin-top: 4px;
+}
+
+.message.user .message-time { color: rgba(255,255,255,0.7); }
+
+/* ===== 안전 경고 메시지 ===== */
+.safety-warning {
+    background: #fff5f5;
+    border: 1px solid #ffcdd2;
+    border-radius: 8px;
+    padding: 10px 14px;
+    margin-top: 6px;
+    font-size: 0.84rem;
+    line-height: 1.5;
+}
+
+.safety-warning .safety-icon {
+    font-size: 1.1rem;
+    margin-right: 4px;
+}
+
+.safety-warning .safety-reason {
+    font-weight: 600;
+    color: #c62828;
+    margin-bottom: 4px;
+}
+
+.safety-warning .safety-alternative {
+    color: #2e7d32;
+    font-style: italic;
+}
+
+/* ===== 도구 실패 메시지 ===== */
+.tool-failure {
+    background: #fff8e1;
+    border: 1px solid #ffe082;
+    border-radius: 8px;
+    padding: 10px 14px;
+    margin-top: 6px;
+    font-size: 0.84rem;
+}
+
+.tool-failure .failure-icon { font-size: 1.1rem; margin-right: 4px; }
+.tool-failure .failure-tool { font-weight: 600; color: #e65100; }
+.tool-failure .failure-error {
+    background: #fff3e0;
+    padding: 6px 10px;
+    border-radius: 4px;
+    margin-top: 4px;
+    font-family: monospace;
+    font-size: 0.78rem;
+    color: #bf360c;
+    white-space: pre-wrap;
+    word-break: break-word;
+}
+
+/* ===== 재시도 버튼 ===== */
+.retry-buttons {
+    display: flex;
+    gap: 8px;
+    margin-top: 8px;
+    padding-top: 8px;
+    border-top: 1px solid #eee;
+}
+
+.btn-retry {
+    padding: 6px 16px;
+    border: none;
+    border-radius: 16px;
+    background: #667eea;
+    color: white;
+    font-size: 0.82rem;
+    cursor: pointer;
+    transition: transform 0.15s;
+}
+
+.btn-retry:hover { transform: scale(1.03); }
+
+.btn-exit {
+    padding: 6px 16px;
+    border: 1px solid #ccc;
+    border-radius: 16px;
+    background: #f5f5f5;
+    color: #666;
+    font-size: 0.82rem;
+    cursor: pointer;
+}
+
+.btn-exit:hover { background: #eee; }
+
+/* ===== TAO 기록 (기존 인라인) ===== */
+.tao-record {
+    background: #f0f4ff;
+    border-left: 3px solid #667eea;
+    border-radius: 6px;
+    padding: 10px 12px;
+    margin-top: 6px;
+    font-size: 0.82rem;
+}
+
+.tao-line { margin-bottom: 4px; display: flex; align-items: flex-start; gap: 4px; }
+.tao-line:last-child { margin-bottom: 0; }
+.tao-icon { flex-shrink: 0; width: 20px; }
+.tao-thought { color: #1565c0; }
+.tao-action { color: #2e7d32; }
+.tao-observation { color: #e65100; }
+.tao-tool-name { font-weight: 600; }
+
+.tool-badge {
+    display: inline-block;
+    font-size: 0.7rem;
+    padding: 1px 8px;
+    border-radius: 10px;
+    background: #eee;
+    font-weight: 600;
+    margin-left: 2px;
+}
+
+.tool-badge.askuser { background: #fff3cd; color: #856404; }
+.tool-badge.composeemail { background: #cce5ff; color: #004085; }
+.tool-badge.showpreview { background: #e8d5f5; color: #6a1b9a; }
+.tool-badge.sendemail { background: #f8d7da; color: #721c24; }
+
+/* ===== 초안 미리보기 ===== */
+.draft-preview {
+    background: #fff;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    padding: 10px 14px;
+    margin-top: 8px;
+}
+
+.draft-preview .draft-label {
+    font-size: 0.7rem;
+    color: #666;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 4px;
+}
+
+.draft-preview .draft-field {
+    margin-bottom: 4px;
+}
+
+.draft-preview .draft-field strong {
+    font-size: 0.78rem;
+}
+
+.draft-preview .draft-content {
+    font-size: 0.84rem;
+    color: #333;
+    white-space: pre-wrap;
+    word-break: break-word;
+}
+
+/* ===== 승인 버튼 ===== */
+.confirm-buttons {
+    display: flex;
+    gap: 8px;
+    margin-top: 8px;
+}
+
+.btn-confirm {
+    padding: 6px 18px;
+    border: none;
+    border-radius: 20px;
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    color: white;
+    font-size: 0.82rem;
+    cursor: pointer;
+    transition: transform 0.15s;
+}
+
+.btn-confirm:hover { transform: scale(1.03); }
+
+.btn-cancel {
+    padding: 6px 18px;
+    border: 1px solid #ccc;
+    border-radius: 20px;
+    background: #f5f5f5;
+    color: #666;
+    font-size: 0.82rem;
+    cursor: pointer;
+}
+
+.btn-cancel:hover { background: #eee; }
+
+/* ===== 발송 결과 ===== */
+.send-result {
+    background: #e8f5e9;
+    border: 1px solid #a5d6a7;
+    border-radius: 8px;
+    padding: 10px 14px;
+    margin-top: 6px;
+}
+
+.send-result.success { background: #e8f5e9; border-color: #a5d6a7; }
+.send-result .result-icon { font-size: 1.2rem; margin-right: 4px; }
+.send-result .result-msg { font-weight: 600; }
+.send-result .result-detail { font-size: 0.8rem; color: #555; margin-top: 2px; }
+
+body.dark .send-result .result-detail { color: #aaa; }
+
+/* ===== 타이핑 인디케이터 ===== */
+.typing-indicator {
+    display: none;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 20px;
+    background: #f5f5f5;
+    font-size: 0.78rem;
+    color: #666;
+}
+
+.typing-indicator.active { display: flex; }
+
+.typing-dot {
+    width: 7px; height: 7px;
+    border-radius: 50%;
+    background: #667eea;
+    animation: typingBounce 1.4s infinite ease-in-out;
+}
+
+.typing-dot:nth-child(2) { animation-delay: 0.2s; }
+.typing-dot:nth-child(3) { animation-delay: 0.4s; }
+
+@keyframes typingBounce {
+    0%,60%,100% { transform: translateY(0); }
+    30% { transform: translateY(-8px); }
+}
+
+/* ===== 입력 ===== */
+.chat-input {
+    padding: 10px 16px;
+    background: white;
+    border-top: 1px solid #e0e0e0;
+    display: flex;
+    gap: 8px;
+    flex-shrink: 0;
+}
+
+.chat-input input {
+    flex: 1;
+    padding: 10px 16px;
+    border: 1px solid #e0e0e0;
+    border-radius: 22px;
+    font-size: 0.88rem;
+    outline: none;
+    transition: border-color 0.3s;
+}
+
+.chat-input input:focus { border-color: #667eea; }
+
+.chat-input button {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    border: none;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    font-size: 1.1rem;
+    cursor: pointer;
+    transition: transform 0.2s;
+    flex-shrink: 0;
+}
+
+.chat-input button:hover { transform: scale(1.05); }
+.chat-input button:active { transform: scale(0.95); }
+.chat-input button:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    transform: none;
+}
+
+/* ===== 반응형 ===== */
+@media (max-width: 768px) {
+    body { padding: 8px; }
+    .main-container { flex-direction: column; height: 96vh; }
+    .tao-panel.open {
+        width: 100%;
+        min-width: 100%;
+        height: 0;
+        min-height: 0;
+        overflow: hidden;
+    }
+    .tao-panel.open.active {
+        height: 250px;
+        min-height: 250px;
+    }
+    .chat-container { height: 100%; border-radius: 14px; }
+    .message { max-width: 98%; }
+}
